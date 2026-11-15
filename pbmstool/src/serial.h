@@ -22,8 +22,11 @@ public:
     void flush();
     bool write(const std::vector<uint8_t>& data, std::string& err);
     bool read_frame(std::vector<uint8_t>& frame, std::string& err);
+    // True if the last write/read_frame failed because a signal interrupted it.
+    bool interrupted() const { return interrupted_; }
 private:
     int fd_ = -1;
+    bool interrupted_ = false;
 };
 
 } // namespace pace

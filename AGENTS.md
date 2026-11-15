@@ -12,6 +12,10 @@ PbmsTools/
 │   ├── bms.h / bms.cpp    ← BMS communication layer
 │   ├── protocol.h/.cpp    ← Pace ASCII frame encode/decode
 │   ├── serial.h/.cpp      ← Linux termios serial port
+│   ├── fields.h/.cpp      ← analog/alarm → ordered key/value pairs (shared by CLI output and daemon)
+│   ├── mqtt.h/.cpp        ← minimal MQTT 3.1.1 client (QoS 0 publish, keepalive; no TLS/auth)
+│   ├── daemon.h/.cpp      ← `daemon` subcommand: read loop + MQTT publish
+│   ├── tui.h/.cpp         ← ncurses `tui` subcommand
 │   └── main.cpp           ← CLI entry point
 └── pbmstoolsgui/          ← C# Windows GUI (read-only reference)
     └── PbmsTools/

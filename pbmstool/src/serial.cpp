@@ -67,10 +67,11 @@ void Serial::flush() {
 }
 
 bool Serial::write(const std::vector<uint8_t>& data, std::string& err) {
+    interrupted_ = false;
     size_t offset = 0;
     while (offset < data.size()) {
         ssize_t n = ::write(fd_, data.data() + offset, data.size() - offset);
-        if (n < 0) { err = std::strerror(errno); return false; }
+        if (n < 0) { interrupted_ = (errno == EINTR); err = std::strerror(errno); return false; }
         offset += static_cast<size_t>(n);
     }
     return true;
@@ -78,11 +79,12 @@ bool Serial::write(const std::vector<uint8_t>& data, std::string& err) {
 
 bool Serial::read_frame(std::vector<uint8_t>& frame, std::string& err) {
     frame.clear();
+    interrupted_ = false;
     uint8_t byte;
     // Sync to start byte 0x7E (cap at 4096 bytes to avoid infinite loop on line noise)
     for (int sync = 0; sync < 4096; ++sync) {
         ssize_t n = ::read(fd_, &byte, 1);
-        if (n <= 0) { err = (n == 0) ? "timeout" : std::strerror(errno); return false; }
+        if (n <= 0) { interrupted_ = (n < 0 && errno == EINTR); err = (n == 0) ? "timeout" : std::strerror(errno); return false; }
         if (byte == 0x7E) { frame.push_back(byte); goto found_start; }
     }
     err = "start byte not found";
@@ -91,7 +93,7 @@ found_start:
     // Read until 0x0D end byte
     for (int i = 0; i < 2048; ++i) {
         ssize_t n = ::read(fd_, &byte, 1);
-        if (n <= 0) { err = (n == 0) ? "timeout" : std::strerror(errno); return false; }
+        if (n <= 0) { interrupted_ = (n < 0 && errno == EINTR); err = (n == 0) ? "timeout" : std::strerror(errno); return false; }
         frame.push_back(byte);
         if (byte == 0x0D) return true;
     }

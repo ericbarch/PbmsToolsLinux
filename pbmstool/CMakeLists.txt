@@ -10,6 +10,9 @@ add_executable(pbmstool
     src/protocol.cpp
     src/serial.cpp
     src/bms.cpp
+    src/fields.cpp
+    src/mqtt.cpp
+    src/daemon.cpp
     src/tui.cpp
     src/main.cpp
 )
