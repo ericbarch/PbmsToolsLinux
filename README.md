@@ -74,7 +74,7 @@ pbmstool --port <dev> [--baud <N>] [--timeout <ms>] [--pack <N>] daemon \
 |---|---|---|
 | `--mqtt-host` | *(required)* | Broker hostname or IP address |
 | `--mqtt-port` | `1883` | Broker TCP port |
-| `--mqtt-prefix` | `bms` | Topic prefix; each field goes to `<prefix>/<field>`. A trailing `/` is ignored; `--mqtt-prefix ""` publishes to bare `<field>` topics |
+| `--mqtt-prefix` | `pace` | Topic prefix; each field goes to `<prefix>/<field>`. A trailing `/` is ignored; `--mqtt-prefix ""` publishes to bare `<field>` topics |
 | `--interval` | `5` | Seconds between read-and-publish cycles; fractional values are accepted |
 
 The daemon runs in the foreground (for systemd `Type=simple`) and stops cleanly with exit code 0 on SIGINT or SIGTERM. Every cycle it reads `analog` and `alarm` for `--pack` and publishes each field as its own topic. The payload is the value exactly as the `analog`/`alarm` subcommands print it (e.g. `3328`, `25.9`, `0`). Messages use QoS 0 and are not retained. The client connects with a clean session, no authentication and no TLS, using the client id `pbmstool-<hostname>`.

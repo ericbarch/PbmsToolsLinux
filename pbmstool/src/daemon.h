@@ -12,7 +12,7 @@ struct DaemonConfig {
     double      interval_s  = 5.0;    // read + publish cadence
     std::string mqtt_host;            // required
     int         mqtt_port   = 1883;
-    std::string mqtt_prefix = "bms";  // topic = <prefix>/<field>; empty = <field>
+    std::string mqtt_prefix = "pace"; // topic = <prefix>/<field>; empty = <field>
 };
 
 // Run the foreground read-and-publish loop until SIGINT/SIGTERM. Returns the

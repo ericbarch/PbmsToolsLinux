@@ -33,7 +33,7 @@ static void usage(const char* prog) {
                  "  --mqtt-host <host>      MQTT broker hostname or IP (required)\n"
                  "  --mqtt-port <N>         MQTT broker port (default 1883)\n"
                  "  --mqtt-prefix <prefix>  topic prefix, topics are <prefix>/<field>"
-                 " (default bms; \"\" for none)\n"
+                 " (default pace; \"\" for none)\n"
                  "  --interval <s>          seconds between read+publish cycles"
                  " (default 5, fractional ok)\n"
                  "\n"
