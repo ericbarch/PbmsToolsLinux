@@ -48,6 +48,8 @@ bool BMS::send_recv(uint8_t adr, uint8_t cmd,
         if (!serial_.write(frame, err)) return false;
         std::vector<uint8_t> raw;
         if (!serial_.read_frame(raw, err)) {
+            // A signal (daemon shutdown) should not wait out the remaining retries.
+            if (serial_.interrupted()) return false;
             if (attempt + 1 < kMaxAttempts) continue;
             return false;
         }
